@@ -3,11 +3,13 @@ import { createConnection } from 'mysql';
 import * as MySQLEvents from '@rodrigogs/mysql-events';
 import { config } from 'dotenv';
 
+import { MySQLGateway } from './mysql.gateway';
+
 config();
 
 @Injectable()
 export class AppService {
-  constructor() {
+  constructor(private readonly mysqlGateway: MySQLGateway) {
     const { DB_HOST, DB_USER, DB_PASS, DB_PORT } = process.env;
     this.connector(DB_HOST, DB_USER, DB_PASS, +DB_PORT)
       .then(() => console.log('Waiting for database events...'))
