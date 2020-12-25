@@ -1,7 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import dashboardReducer from '../features/dashboard/slice'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    dashboard: dashboardReducer,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>
