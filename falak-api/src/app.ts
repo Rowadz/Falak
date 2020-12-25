@@ -9,11 +9,11 @@ import { sync } from 'glob'
 import 'colors'
 import { join, basename } from 'path'
 import { Server as webSocketServer } from 'socket.io'
-import { MysqlService } from '@services'
+import { MysqlService, OperationsSimulationService } from '@services'
 
 config()
 
-const { APP_PORT } = process.env
+const { APP_PORT, RUN_DB_OPERATIONS_SIMULATION } = process.env
 
 const init = async () => {
   const controllersPath = join(__dirname, 'controllers/**/*.controller.ts')
@@ -34,6 +34,12 @@ const init = async () => {
   })
 
   Container.set(MysqlService, new MysqlService(io))
+  const operationsSimulationService = new OperationsSimulationService(
+    Container.get(MysqlService)
+  )
+  if (RUN_DB_OPERATIONS_SIMULATION) {
+    operationsSimulationService.init()
+  }
   useContainer(Container)
 }
 

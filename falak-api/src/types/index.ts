@@ -1,1 +1,6 @@
-export { PlainObject } from './generic.types'
+export {
+  PlainObject,
+  CUD,
+  SimulationCUD,
+  SimulationCUDFunc,
+} from './generic.types'
