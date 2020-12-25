@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Service } from 'typedi'
-import { createConnection } from 'mysql'
+import { Connection, createConnection } from 'mysql'
 import { config } from 'dotenv'
 import { Server, Socket } from 'socket.io'
 const MySQLEvents = require('@rodrigogs/mysql-events')
@@ -10,6 +10,7 @@ config()
 @Service()
 export class MysqlService {
   private readonly websocketServer: Server
+  readonly connection: Connection
   constructor(websocketServer: Server) {
     this.websocketServer = websocketServer
     const { DB_HOST, DB_USER, DB_PASS, DB_PORT } = process.env
@@ -18,7 +19,13 @@ export class MysqlService {
         'Plz check if you added all of these [DB_HOST, DB_USER, DB_PASS, DB_PORT] to the .env file'
       )
     }
-    this.connector(DB_HOST, DB_USER, DB_PASS, +DB_PORT)
+    this.connection = createConnection({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASS,
+      port: +DB_PORT,
+    })
+    this.connector()
       .then(() => {
         // tslint:disable-next-line: no-console
         console.log('Waiting for database events...')
@@ -27,20 +34,8 @@ export class MysqlService {
       .catch(console.error)
   }
 
-  async connector(
-    DB_HOST: string,
-    DB_USER: string,
-    DB_PASS: string,
-    DB_PORT: number
-  ): Promise<void> {
-    const connection = createConnection({
-      host: DB_HOST,
-      user: DB_USER,
-      password: DB_PASS,
-      port: DB_PORT,
-    })
-
-    const instance = new MySQLEvents(connection, {
+  async connector(): Promise<void> {
+    const instance = new MySQLEvents(this.connection, {
       startAtEnd: true,
       excludedSchemas: { mysql: true },
     })
