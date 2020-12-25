@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 import { Connection, createConnection } from 'mysql'
 import { config } from 'dotenv'
 import { Server, Socket } from 'socket.io'
+import { EventEmitter } from 'events'
 const MySQLEvents = require('@rodrigogs/mysql-events')
 
 config()
@@ -11,6 +12,7 @@ config()
 export class MysqlService {
   private readonly websocketServer: Server
   readonly connection: Connection
+  private readonly mysqlEventEmitter: EventEmitter
   constructor(websocketServer: Server) {
     this.websocketServer = websocketServer
     const { DB_HOST, DB_USER, DB_PASS, DB_PORT } = process.env
@@ -27,11 +29,12 @@ export class MysqlService {
     })
     this.connector()
       .then(() => {
-        // tslint:disable-next-line: no-console
         console.log('Waiting for database events...')
         this.initMysqlEvent()
       })
       .catch(console.error)
+
+    this.mysqlEventEmitter = new EventEmitter()
   }
 
   async connector(): Promise<void> {
@@ -47,8 +50,7 @@ export class MysqlService {
       expression: '*',
       statement: MySQLEvents.STATEMENTS.ALL,
       onEvent: (event: unknown) => {
-        // You will receive the events here
-        console.log(event)
+        this.mysqlEventEmitter.emit('event', event)
       },
     })
 
@@ -58,12 +60,8 @@ export class MysqlService {
 
   private initMysqlEvent() {
     this.websocketServer.on('connection', (socket: Socket) => {
-      // tslint:disable-next-line: no-console
-      console.log('a user connected')
-      socket.emit('events', [123]) // TODO send mysql events here
-      socket.on('disconnect', () => {
-        // tslint:disable-next-line: no-console
-        console.log('user disconnected')
+      this.mysqlEventEmitter.on('event', (event: unknown) => {
+        socket.emit('event', event)
       })
     })
   }
