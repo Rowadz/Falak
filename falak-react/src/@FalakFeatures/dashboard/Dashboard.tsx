@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
 import { SimpleGrid, Box } from '@chakra-ui/react'
-import { Counter, PieChart } from '@FalakFeatures'
+import { Counter, PieChart, TimelineChart } from '@FalakFeatures'
 import { addEvent } from './slice'
 
 const Dashboard = () => {
@@ -24,7 +24,7 @@ const Dashboard = () => {
         <Counter eventType="DELETE" text="of delete queries" />
         <Counter eventType="UPDATE" text="of update queries" />
       </SimpleGrid>
-      <SimpleGrid columns={3} spacing="40px" mt="1">
+      <SimpleGrid columns={2} spacing="40px" mt="1">
         <Box
           bg="cornflowerblue"
           height="60vh"
@@ -32,6 +32,14 @@ const Dashboard = () => {
           boxShadow="2xl"
         >
           <PieChart />
+        </Box>
+        <Box
+          bg="cornflowerblue"
+          height="60vh"
+          borderRadius="lg"
+          boxShadow="2xl"
+        >
+          <TimelineChart />
         </Box>
       </SimpleGrid>
     </Box>

@@ -1,6 +1,7 @@
-import Header from './header/Header'
-import Dashboard from './dashboard/Dashboard'
-import Counter from './counter/Counter'
-import PieChart from './pieChart/PieChart'
+import Header from '@FalakFeatures/header/Header'
+import Dashboard from '@FalakFeatures/dashboard/Dashboard'
+import Counter from '@FalakFeatures/counter/Counter'
+import PieChart from '@FalakFeatures/pieChart/PieChart'
+import TimelineChart from '@FalakFeatures/timelineChart/TimelineChart'
 
-export { Header, Dashboard, Counter, PieChart }
+export { Header, Dashboard, Counter, PieChart, TimelineChart }
