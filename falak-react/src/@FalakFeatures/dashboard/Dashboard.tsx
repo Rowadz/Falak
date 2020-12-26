@@ -24,7 +24,7 @@ const Dashboard = () => {
         <Counter eventType="DELETE" text="of delete queries" />
         <Counter eventType="UPDATE" text="of update queries" />
       </SimpleGrid>
-      <SimpleGrid columns={2} spacing="40px" mt="1">
+      <SimpleGrid columns={2} spacing="40px" mt="6">
         <Box
           bg="cornflowerblue"
           height="60vh"
