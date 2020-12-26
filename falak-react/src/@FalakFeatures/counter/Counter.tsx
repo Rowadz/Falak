@@ -8,10 +8,7 @@ import { selectCount } from '@FalakFeatures/genericSelectors'
 const Counter = ({ text, eventType }: CounterFeatureProps) => {
   const [state, setState] = useState({ color: 'cornflowerblue' })
   const count: number = useSelector(selectCount(eventType))
-  const a: number = useSelector(
-    (state) => (state as any).dashboard.events.length
-  )
-  console.log({ a })
+
   return (
     <Box bg={state.color} height="20vh" borderRadius="lg" boxShadow="2xl">
       <Center height="20vh" color="white">
