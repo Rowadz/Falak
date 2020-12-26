@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import ReactEcharts from 'echarts-for-react'
 import { selectCount } from '@FalakFeatures/genericSelectors'
 
-const Chart = () => {
+const PieChart = () => {
   const deleteCount: number = useSelector(selectCount('DELETE'))
   const insertCount: number = useSelector(selectCount('INSERT'))
   const updateCount: number = useSelector(selectCount('UPDATE'))
@@ -64,4 +64,4 @@ const Chart = () => {
   )
 }
 
-export default Chart
+export default PieChart

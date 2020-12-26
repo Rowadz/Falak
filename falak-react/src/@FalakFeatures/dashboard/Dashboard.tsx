@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
 import { SimpleGrid, Box } from '@chakra-ui/react'
-import { Counter, Chart } from '@FalakFeatures'
+import { Counter, PieChart } from '@FalakFeatures'
 import { addEvent } from './slice'
 
 const Dashboard = () => {
@@ -31,7 +31,7 @@ const Dashboard = () => {
           borderRadius="lg"
           boxShadow="2xl"
         >
-          <Chart />
+          <PieChart />
         </Box>
       </SimpleGrid>
     </Box>

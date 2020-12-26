@@ -1,6 +1,6 @@
 import Header from './header/Header'
 import Dashboard from './dashboard/Dashboard'
 import Counter from './counter/Counter'
-import Chart from './chart/Chart'
+import PieChart from './pieChart/PieChart'
 
-export { Header, Dashboard, Counter, Chart }
+export { Header, Dashboard, Counter, PieChart }
