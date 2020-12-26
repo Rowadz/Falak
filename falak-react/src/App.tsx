@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
-import { Header, Dashboard } from './features'
+import { Header, Dashboard } from './@FalakFeatures'
 
 const App = () => {
   return (

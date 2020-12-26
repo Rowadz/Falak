@@ -2,9 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
 import { SimpleGrid, Box, Center } from '@chakra-ui/react'
-import CreateQueriesKPI from '../createQueriesKPI/CreateQueriesKPI'
-import DeleteQueriesKPI from '../deleteQueriesKPI/DeleteQueriesKPI'
-import UpdateQueriesKPI from '../updateQueriesKPI/UpdateQueriesKPI'
+import { CreateQueriesKPI, DeleteQueriesKPI, UpdateQueriesKPI } from '@FalakFeatures'
 import { addEvent } from './slice'
 
 const Dashboard = () => {

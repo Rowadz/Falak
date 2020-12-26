@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import dashboardReducer from '../features/dashboard/slice'
+import dashboardReducer from '../@FalakFeatures/dashboard/slice'
 
 export const store = configureStore({
   reducer: {
