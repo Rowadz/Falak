@@ -1,7 +1,8 @@
 import React from 'react'
-import { Heading, Flex } from '@chakra-ui/react'
+import { useColorMode, Heading, Flex, Box, Button } from '@chakra-ui/react'
 
 const Header = () => {
+  const { toggleColorMode } = useColorMode()
   return (
     <Flex
       as="nav"
@@ -9,7 +10,7 @@ const Header = () => {
       justify="space-between"
       wrap="wrap"
       padding="1.5rem"
-      bg="blue.500"
+      bg="cornflowerblue"
       color="white"
     >
       <Flex align="center" mr={5}>
@@ -17,6 +18,11 @@ const Header = () => {
           🌑 Falak 🌑
         </Heading>
       </Flex>
+      <Box display={{ sm: 'block', md: 'block' }} mt={{ base: 4, md: 0 }}>
+        <Button onClick={toggleColorMode} colorScheme="cornflowerblue" borderRadius="lg">
+          Toggle Theme
+        </Button>
+      </Box>
     </Flex>
   )
 }
