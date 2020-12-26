@@ -8,7 +8,7 @@ const Counter = ({ end, onEnd, onStart }: CountUpProps) => {
       end={end}
       separator=","
       decimal=","
-      duration={2.7}
+      duration={1}
       onStart={onStart}
       onEnd={onEnd}
     />

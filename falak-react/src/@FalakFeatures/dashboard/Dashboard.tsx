@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
-import { SimpleGrid, Box, Center } from '@chakra-ui/react'
-import { CreateQueriesKPI, DeleteQueriesKPI, UpdateQueriesKPI } from '@FalakFeatures'
+import { SimpleGrid, Box } from '@chakra-ui/react'
+import { Counter } from '@FalakFeatures'
 import { addEvent } from './slice'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const height = useMemo(() => '20vh', [])
   useEffect(() => {
     const socket = connect('http://localhost:3030', {
       transports: ['websocket'],
@@ -21,21 +20,9 @@ const Dashboard = () => {
   return (
     <Box>
       <SimpleGrid columns={3} spacing="40px" mt="1">
-        <Box bg="cornflowerblue" height={height} borderRadius="lg" boxShadow="2xl">
-          <Center height={height} color="white">
-            <CreateQueriesKPI />
-          </Center>
-        </Box>
-        <Box bg="cornflowerblue" height={height} borderRadius="lg" boxShadow="2xl">
-          <Center height={height} color="white">
-            <DeleteQueriesKPI />
-          </Center>
-        </Box>
-        <Box bg="cornflowerblue" height={height} borderRadius="lg" boxShadow="2xl">
-          <Center height={height} color="white">
-            <UpdateQueriesKPI />
-          </Center>
-        </Box>
+        <Counter eventType="INSERT" text="of insert queries" />
+        <Counter eventType="DELETE" text="of delete queries" />
+        <Counter eventType="UPDATE" text="of update queries" />
       </SimpleGrid>
     </Box>
   )
