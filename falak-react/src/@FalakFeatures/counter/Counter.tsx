@@ -10,8 +10,8 @@ const Counter = ({ text, eventType }: CounterFeatureProps) => {
   const count: number = useSelector(selectCount(eventType))
 
   return (
-    <Box bg={state.color} height="20vh" borderRadius="lg" boxShadow="2xl">
-      <Center height="20vh" color="white">
+    <Box bg={state.color} height="40vh" borderRadius="lg" boxShadow="2xl">
+      <Center height="40vh" color="white">
         <Text fontSize="2rem">
           <CounterUI
             end={count}

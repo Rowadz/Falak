@@ -1,7 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import ReactEcharts from 'echarts-for-react'
+import { selectTypeTimeline } from './selectors'
 
 const TimelineChart = () => {
+  const typesTimeLine: any = useSelector(selectTypeTimeline)
+  console.log(typesTimeLine)
   return (
     <ReactEcharts
       style={{
@@ -22,9 +26,8 @@ const TimelineChart = () => {
           show: false,
         },
         xAxis: {
-          type: 'category',
+          type: 'time',
           boundaryGap: true,
-          data: Array.from({ length: 200 }).map((_, i) => `${i + 1}`),
           splitLine: {
             show: false,
           },
@@ -40,28 +43,19 @@ const TimelineChart = () => {
             color: '#E0533F',
             name: 'DELETE',
             type: 'line',
-            stack: '总量',
-            data: Array.from({ length: 200 }).map(
-              () => Math.floor(Math.random() * 1000) + 1
-            ),
+            data: typesTimeLine.DELETE?.values,
           },
           {
             color: '#1E2E45',
             name: 'UPDATE',
             type: 'line',
-            stack: '总量',
-            data: Array.from({ length: 200 }).map(
-              () => Math.floor(Math.random() * 1000) + 1
-            ),
+            data: typesTimeLine.UPDATE?.values,
           },
           {
             color: '#F7F7F7',
             name: 'INSERT',
             type: 'line',
-            stack: '总量',
-            data: Array.from({ length: 200 }).map(
-              () => Math.floor(Math.random() * 1000) + 1
-            ),
+            data: typesTimeLine.INSERT?.values,
           },
         ],
       }}

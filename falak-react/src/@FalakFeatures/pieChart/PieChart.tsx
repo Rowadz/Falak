@@ -11,7 +11,7 @@ const PieChart = () => {
   return (
     <ReactEcharts
       style={{
-        height: '60vh',
+        height: '40vh',
       }}
       option={{
         tooltip: {
@@ -24,14 +24,14 @@ const PieChart = () => {
           right: 10,
           top: 20,
           bottom: 20,
-          textStyle: { color: '#F7F7F7' },
+          textStyle: { color: '#F7F7F7', fontFamily: 'Audiowide' },
         },
         series: [
           {
             color: ['#E0533F', '#1E2E45', '#F7F7F7'],
             name: 'Queries',
             type: 'pie',
-            radius: '100%',
+            radius: '80%',
             center: ['50%', '50%'],
             roseType: 'radius',
             data: [

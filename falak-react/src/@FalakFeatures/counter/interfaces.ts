@@ -1,4 +1,4 @@
 export interface CounterFeatureProps {
-  eventType: 'INSERT' | 'UPDATE' | 'DELETE'
+  eventType: 'INSERT' | 'UPDATE' | 'DELETE' | 'ALL'
   text: string
 }

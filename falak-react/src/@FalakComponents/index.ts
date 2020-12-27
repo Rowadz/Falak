@@ -1,3 +1,4 @@
-import Counter from './Counter/Counter'
+import Counter from '@FalakComponents/Counter/Counter'
+import Header from '@FalakComponents/header/Header'
 
-export { Counter }
+export { Counter, Header }
