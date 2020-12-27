@@ -20,7 +20,7 @@ export class OperationsSimulationService {
       const num: number = Math.floor(Math.random() * 3) + 1
       const { sql, type } = (this.funcsMap.get(num) as SimulationCUDFunc)()
       this.runQuery(sql, type)
-    }, 2000)
+    }, 500)
   }
 
   private create(): SimulationCUD {
