@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
 import { SimpleGrid, Box, useToast, Text } from '@chakra-ui/react'
-import { Counter, PieChart } from '@FalakFeatures'
+import { Counter, PieChart, BarChart } from '@FalakFeatures'
 import {
   FcFullTrash,
   FcPlus,
@@ -60,6 +60,9 @@ const Dashboard = () => {
       <SimpleGrid columns={2} spacing="40px" mt="6">
         <Box bg="#2F3540" height="40vh" borderRadius="lg" boxShadow="2xl">
           <PieChart />
+        </Box>
+        <Box bg="#2F3540" height="40vh" borderRadius="lg" boxShadow="2xl">
+          <BarChart />
         </Box>
       </SimpleGrid>
     </Box>

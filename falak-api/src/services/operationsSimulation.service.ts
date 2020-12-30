@@ -17,28 +17,35 @@ export class OperationsSimulationService {
 
   init(): void {
     setInterval(() => {
-      const num: number = Math.floor(Math.random() * 3) + 1
-      const { sql, type } = (this.funcsMap.get(num) as SimulationCUDFunc)()
+      const num: 1 | 2 | 3 = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
+      const table: 1 | 2 = (Math.floor(Math.random() * 2) + 1) as 1 | 2
+      const { sql, type } = (this.funcsMap.get(num) as SimulationCUDFunc)(table)
       this.runQuery(sql, type)
     }, 500)
   }
 
-  private create(): SimulationCUD {
+  private create(table: 1 | 2): SimulationCUD {
     return {
       type: 'create',
-      sql: `INSERT INTO sample.peoples (firstname,lastname,email) VALUES('rowad','rowadzzz','rowadz@test.com');`,
+      sql: `INSERT INTO sample.${
+        table === 1 ? 'peoples' : 'peoples02'
+      } (firstname,lastname,email) VALUES('rowad','rowadzzz','rowadz@test.com');`,
     }
   }
-  private delete(): SimulationCUD {
+  private delete(table: 1 | 2): SimulationCUD {
     return {
       type: 'delete',
-      sql: `DELETE FROM sample.peoples WHERE email = 'rowadz@test.com';`,
+      sql: `DELETE FROM sample.${
+        table === 1 ? 'peoples' : 'peoples02'
+      } WHERE email = 'rowadz@test.com';`,
     }
   }
-  private update(): SimulationCUD {
+  private update(table: 1 | 2): SimulationCUD {
     return {
       type: 'update',
-      sql: `UPDATE sample.peoples SET firstname = 'rowadzzzz' WHERE email = 'rowadz@test.com'`,
+      sql: `UPDATE sample.${
+        table === 1 ? 'peoples' : 'peoples02'
+      } SET firstname = 'rowadzzzz' WHERE email = 'rowadz@test.com'`,
     }
   }
 
@@ -51,7 +58,6 @@ export class OperationsSimulationService {
       .on('result', () => console.log(`Query of type ${type} is done`))
   }
 }
-
 
 /**
 

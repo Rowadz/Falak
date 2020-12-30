@@ -25,7 +25,7 @@ const PieChart = () => {
           right: 10,
           top: 20,
           bottom: 20,
-          textStyle: { color: '#F7F7F7', fontFamily: 'Audiowide' },
+          textStyle: { color: colors.white, fontFamily: 'Audiowide' },
         },
         series: [
           {
@@ -47,10 +47,10 @@ const PieChart = () => {
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
               },
             },
-            label: { color: '#F7F7F7', show: false },
+            label: { color: colors.white, show: false },
             labelLine: {
               show: false,
-              lineStyle: { color: '#F7F7F7' },
+              lineStyle: { color: colors.white },
               smooth: 0.2,
               length: 10,
               length2: 20,
