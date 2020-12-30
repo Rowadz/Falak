@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import ReactEcharts from 'echarts-for-react'
 import { selectCount } from '@FalakFeatures/genericSelectors'
+import colors from '@FalakFeatures/colors'
 
 const PieChart = () => {
   const deleteCount: number = useSelector(selectCount('DELETE'))
@@ -28,7 +29,7 @@ const PieChart = () => {
         },
         series: [
           {
-            color: ['#E0533F', '#1E2E45', '#F7F7F7'],
+            color: ['#E0533F', '#0084CC', colors.white],
             name: 'Queries',
             type: 'pie',
             radius: '90%',

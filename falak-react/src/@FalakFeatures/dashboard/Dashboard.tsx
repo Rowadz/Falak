@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
-import { SimpleGrid, Box, useToast } from '@chakra-ui/react'
+import { SimpleGrid, Box, useToast, Text } from '@chakra-ui/react'
 import { Counter, PieChart } from '@FalakFeatures'
+import {
+  FcFullTrash,
+  FcPlus,
+  FcSynchronize,
+  FcAcceptDatabase,
+} from 'react-icons/fc'
 import { addEvent, changeConnectionStatus } from './slice'
 
 const Dashboard = () => {
@@ -30,18 +36,29 @@ const Dashboard = () => {
   return (
     <Box>
       <SimpleGrid columns={4} spacing="40px" mt="1">
-        <Counter eventType="INSERT" text="insert queries 🆕" />
-        <Counter eventType="DELETE" text="delete queries 🗑️" />
-        <Counter eventType="UPDATE" text="update queries ♻️" />
-        <Counter eventType="ALL" text="total queries" />
+        <Counter eventType="INSERT">
+          <>
+            inserts <FcPlus style={{ display: 'inline' }} />
+          </>
+        </Counter>
+        <Counter eventType="DELETE">
+          <>
+            delete <FcFullTrash style={{ display: 'inline' }} />
+          </>
+        </Counter>
+        <Counter eventType="UPDATE">
+          <>
+            updates <FcSynchronize style={{ display: 'inline' }} />
+          </>
+        </Counter>
+        <Counter eventType="ALL">
+          <>
+            total queries <FcAcceptDatabase style={{ display: 'inline' }} />{' '}
+          </>
+        </Counter>
       </SimpleGrid>
       <SimpleGrid columns={2} spacing="40px" mt="6">
-        <Box
-          bg="cornflowerblue"
-          height="40vh"
-          borderRadius="lg"
-          boxShadow="2xl"
-        >
+        <Box bg="#2F3540" height="40vh" borderRadius="lg" boxShadow="2xl">
           <PieChart />
         </Box>
       </SimpleGrid>

@@ -10,6 +10,8 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { selectConnectionStatus } from '@FalakFeatures/header/selectors'
+import colors from '@FalakFeatures/colors'
+import { FcScatterPlot } from 'react-icons/fc'
 
 const Header = () => {
   const { toggleColorMode } = useColorMode()
@@ -35,18 +37,20 @@ const Header = () => {
         justify="space-between"
         wrap="wrap"
         padding="1.5rem"
-        bg={connectionStatus ? 'cornflowerblue' : 'tomato'}
-        color="white"
+        bg={connectionStatus ? '#2F3540' : 'tomato'}
+        color={colors.white}
       >
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing={'-.1rem'}>
-            🌑 Falak 🌑
+            <FcScatterPlot style={{ display: 'inline' }} /> Falak{' '}
+            <FcScatterPlot style={{ display: 'inline' }} />
           </Heading>
         </Flex>
         <Box display={{ sm: 'block', md: 'block' }} mt={{ base: 4, md: 0 }}>
           <Button
             onClick={toggleColorMode}
-            colorScheme="cornflowerblue"
+            colorScheme="#2F3540"
+            color={colors.white}
             borderRadius="lg"
           >
             Toggle Theme
