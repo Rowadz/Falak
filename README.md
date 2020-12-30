@@ -8,11 +8,11 @@ A real-time dashboard for CRUD operations that happened in MySQL +8 ( react + ex
 - the app has 2 parts a restful API with a websocket server via [erela](https://mohammedal-rowad.github.io/Erela/#/) and a frontend application with [react](https://reactjs.org/) and [redux toolkit](https://redux-toolkit.js.org/)
 
 Example
-<img src="example01.png">
-<img src="example02.png">
+<img src="example01-00.png">
+<img src="example02-00.png">
 - when the websocket connection gets lost...
 
-<img src="example03.png">
+<img src="example03-00.png">
 
 ## Install
 
