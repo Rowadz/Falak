@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
-import { Dashboard } from '@FalakFeatures'
-import { Header } from '@FalakComponents'
+import { Dashboard, Header } from '@FalakFeatures'
 
 const App = () => {
   return (

@@ -1,17 +1,9 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { connect } from 'socket.io-client'
-import {
-  SimpleGrid,
-  Box,
-  Center,
-  Text,
-  Spinner,
-  useToast,
-} from '@chakra-ui/react'
+import { SimpleGrid, Box, useToast } from '@chakra-ui/react'
 import { Counter, PieChart } from '@FalakFeatures'
 import { addEvent, changeConnectionStatus } from './slice'
-import { selectConnectionStatus } from './selectors'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -35,16 +27,15 @@ const Dashboard = () => {
     })
   }, [dispatch])
 
-  const connectionStatus = useSelector(selectConnectionStatus)
-
   return (
     <Box>
-      <SimpleGrid columns={3} spacing="40px" mt="1">
+      <SimpleGrid columns={4} spacing="40px" mt="1">
         <Counter eventType="INSERT" text="insert queries 🆕" />
         <Counter eventType="DELETE" text="delete queries 🗑️" />
         <Counter eventType="UPDATE" text="update queries ♻️" />
+        <Counter eventType="ALL" text="total queries" />
       </SimpleGrid>
-      <SimpleGrid columns={3} spacing="40px" mt="6">
+      <SimpleGrid columns={2} spacing="40px" mt="6">
         <Box
           bg="cornflowerblue"
           height="40vh"
@@ -52,27 +43,6 @@ const Dashboard = () => {
           boxShadow="2xl"
         >
           <PieChart />
-        </Box>
-        <Counter eventType="ALL" text="total queries" />
-        <Box
-          bg={connectionStatus ? 'cornflowerblue' : 'tomato'}
-          height="40vh"
-          borderRadius="lg"
-          boxShadow="2xl"
-        >
-          <Center height="40vh" color="white">
-            {connectionStatus ? (
-              <Text fontSize="2rem">Connected</Text>
-            ) : (
-              <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-              />
-            )}
-          </Center>
         </Box>
       </SimpleGrid>
     </Box>

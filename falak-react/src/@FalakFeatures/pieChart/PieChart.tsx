@@ -31,7 +31,7 @@ const PieChart = () => {
             color: ['#E0533F', '#1E2E45', '#F7F7F7'],
             name: 'Queries',
             type: 'pie',
-            radius: '80%',
+            radius: '90%',
             center: ['50%', '50%'],
             roseType: 'radius',
             data: [
