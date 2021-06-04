@@ -1,6 +1,11 @@
 # 🌑 Falak 🌑
 A real-time dashboard for CRUD operations that happened in MySQL +8 ( react + express [TypeScript] )
 
+VIDEO:
+https://user-images.githubusercontent.com/38977667/106354514-024f5900-62fb-11eb-8154-ea034ef1a643.mp4
+
+
+
 ## Information
 
 - you need to install this app locally to run it
