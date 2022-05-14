@@ -1,6 +1,6 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/falak-server/src",
+  "sourceRoot": "apps/falak-server/src/app",
   "monorepo": true,
   "root": "apps/falak-server",
   "compilerOptions": {
@@ -12,7 +12,7 @@
       "type": "application",
       "root": "apps/falak-server",
       "entryFile": "main",
-      "sourceRoot": "apps/falak-server/src",
+      "sourceRoot": "apps/falak-server/src/app",
       "compilerOptions": {
         "tsConfigPath": "apps/falak-server/tsconfig.app.json"
       }
