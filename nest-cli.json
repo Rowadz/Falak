@@ -1,0 +1,21 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/falak-server/src",
+  "monorepo": true,
+  "root": "apps/falak-server",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/falak-server/tsconfig.app.json"
+  },
+  "projects": {
+    "falak-server": {
+      "type": "application",
+      "root": "apps/falak-server",
+      "entryFile": "main",
+      "sourceRoot": "apps/falak-server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/falak-server/tsconfig.app.json"
+      }
+    }
+  }
+}
