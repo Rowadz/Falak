@@ -8,6 +8,4 @@ export type DatabaseNotification = {
   affectedColumns?: string[];
 };
 
-export type MySQLDatabaseNotification =
-  | DatabaseNotification
-  | { [key: string]: any };
+export type MySQLDatabaseNotification = DatabaseNotification | { [key: string]: any };

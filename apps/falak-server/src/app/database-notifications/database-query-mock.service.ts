@@ -46,7 +46,7 @@ export class DatabaseQueryMockService {
     this.mysqlQueryBuilder('contacts')
       .delete()
       .where({ email: 'b' })
-      .then(() => console.log('➕ INSERTED a row ➕'))
+      .then(() => console.log('❌ DELETED a row ❌'))
       .catch(console.error);
   }
 }

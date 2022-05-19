@@ -7,6 +7,7 @@
     "build": "nx build",
     "test": "nx test",
     "postinstall": "yarn husky install",
+    "falak-server": "nx serve falak-server",
     "nx": "nx",
     "nest": "nest"
   },
@@ -23,6 +24,7 @@
     "@rodrigogs/mysql-events": "^0.6.0",
     "core-js": "^3.6.5",
     "knex": "^2.0.0",
+    "mongodb": "^4.6.0",
     "mysql": "^2.18.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",

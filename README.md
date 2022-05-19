@@ -5,7 +5,7 @@ This project was generated using [Nx](https://nx.dev).
 ## Running the Falak nestjs server
 
 ```bash
-$ yarn nx serve falak-server
+$ yarn falak-server
 ```
 
 ## Running the Falak react server

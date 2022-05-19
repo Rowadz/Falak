@@ -8,28 +8,16 @@ import { DatabaseNotificationsService } from './database-notifications.service';
 import { CreateDatabaseNotificationDto } from './dto/create-database-notification.dto';
 import { UpdateDatabaseNotificationDto } from './dto/update-database-notification.dto';
 import { Server } from 'socket.io';
-import { Subject } from 'rxjs';
-import { DatabaseQueryMockService } from './database-query-mock.service';
-import { DatabaseNotification } from './entities/database-notification.entity';
+import { DatabaseNotification } from '../database-notification.type';
+import { dbSubject } from '../subjects';
 
 @WebSocketGateway()
 export class DatabaseNotificationsGateway {
   @WebSocketServer()
   server: Server;
 
-  dbSubject: Subject<DatabaseNotification> =
-    new Subject<DatabaseNotification>();
-
-  constructor(
-    private readonly databaseNotificationsService: DatabaseNotificationsService,
-    private readonly databaseQueryMockService: DatabaseQueryMockService
-  ) {
-    this.subscribeToMySQL();
-  }
-
-  private async subscribeToMySQL() {
-    this.databaseNotificationsService.initEeventListener(this.dbSubject);
-    this.dbSubject.subscribe({
+  constructor(private readonly databaseNotificationsService: DatabaseNotificationsService) {
+    dbSubject.subscribe({
       next: (data: Partial<DatabaseNotification>) => {
         this.server.emit('NOTIFICATION', data);
       },
@@ -37,12 +25,8 @@ export class DatabaseNotificationsGateway {
   }
 
   @SubscribeMessage('createDatabaseNotification')
-  create(
-    @MessageBody() createDatabaseNotificationDto: CreateDatabaseNotificationDto
-  ) {
-    return this.databaseNotificationsService.create(
-      createDatabaseNotificationDto
-    );
+  create(@MessageBody() createDatabaseNotificationDto: CreateDatabaseNotificationDto) {
+    return this.databaseNotificationsService.create(createDatabaseNotificationDto);
   }
 
   @SubscribeMessage('findAllDatabaseNotifications')
@@ -56,9 +40,7 @@ export class DatabaseNotificationsGateway {
   }
 
   @SubscribeMessage('updateDatabaseNotification')
-  update(
-    @MessageBody() updateDatabaseNotificationDto: UpdateDatabaseNotificationDto
-  ) {
+  update(@MessageBody() updateDatabaseNotificationDto: UpdateDatabaseNotificationDto) {
     return this.databaseNotificationsService.update(
       updateDatabaseNotificationDto.id,
       updateDatabaseNotificationDto

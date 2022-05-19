@@ -4,15 +4,13 @@ import { UpdateDatabaseNotificationDto } from './dto/update-database-notificatio
 import * as MySQLEvents from '@rodrigogs/mysql-events';
 
 import { createConnection } from 'mysql';
-import {
-  DatabaseNotification,
-  MySQLDatabaseNotification,
-} from './entities/database-notification.entity';
 import { Subject } from 'rxjs';
+import { DatabaseNotification, MySQLDatabaseNotification } from '../database-notification.type';
+import { dbSubject } from '../subjects';
 
 @Injectable()
 export class DatabaseNotificationsService {
-  async initEeventListener(dbSubject: Subject<Partial<DatabaseNotification>>) {
+  async initEeventListener() {
     const connection = createConnection({
       host: 'localhost',
       user: 'root',
