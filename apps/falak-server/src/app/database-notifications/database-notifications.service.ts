@@ -56,10 +56,7 @@ export class DatabaseNotificationsService {
     return `This action returns a #${id} databaseNotification`;
   }
 
-  update(
-    id: number,
-    updateDatabaseNotificationDto: UpdateDatabaseNotificationDto
-  ) {
+  update(id: number, updateDatabaseNotificationDto: UpdateDatabaseNotificationDto) {
     return `This action updates a #${id} databaseNotification`;
   }
 
