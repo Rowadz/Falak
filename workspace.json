@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "falak-react": "apps/falak-react",
+    "falak-react-e2e": "apps/falak-react-e2e",
+    "falak-server": "apps/falak-server"
+  }
+}
