@@ -8,6 +8,7 @@
     "test": "nx test",
     "postinstall": "yarn husky install",
     "falak-server": "nx serve falak-server",
+    "falak-react": "nx serve falak-react",
     "nx": "nx",
     "nest": "nest"
   },

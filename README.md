@@ -1,6 +1,8 @@
-# Falak
+# Falak V2
 
-This project was generated using [Nx](https://nx.dev).
+🌑 A real-time dashboard for CRUD operations that happened in MySQL +8 ( react + express [TypeScript] ) 🌑
+
+> see version 1 [click here](https://github.com/MohammedAl-Rowad/Falak/tree/old-main)
 
 ## Running the Falak nestjs server
 
@@ -11,7 +13,7 @@ $ yarn falak-server
 ## Running the Falak react server
 
 ```bash
-$ yarn nx serve falak-react
+$ yarn falak-react
 ```
 
 ## Adding capabilities to your workspace
@@ -64,18 +66,6 @@ Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new
 ## Build
 
 Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
 ## Understand your workspace
 
