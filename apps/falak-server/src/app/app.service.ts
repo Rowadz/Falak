@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Subject } from 'rxjs';
+import { Document, Collection } from 'mongodb';
 import { DatabaseNotification } from './database-notification.type';
 import { DatabaseNotificationsService } from './database-notifications/database-notifications.service';
 import { DatabaseQueryMockService } from './database-notifications/database-query-mock.service';
@@ -17,7 +17,7 @@ export class AppService {
   }
 
   private async watch() {
-    const collection = await this.mongoService.createConnection();
+    const collection: Collection<Document> = await this.mongoService.createConnection();
     this.databaseNotificationsService.initEeventListener();
     dbSubject.subscribe({
       next: (data: Partial<DatabaseNotification>) => {

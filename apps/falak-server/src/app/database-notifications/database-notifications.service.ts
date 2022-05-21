@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateDatabaseNotificationDto } from './dto/create-database-notification.dto';
 import { UpdateDatabaseNotificationDto } from './dto/update-database-notification.dto';
 import * as MySQLEvents from '@rodrigogs/mysql-events';
-
 import { createConnection } from 'mysql';
-import { Subject } from 'rxjs';
-import { DatabaseNotification, MySQLDatabaseNotification } from '../database-notification.type';
+import { MySQLDatabaseNotification } from '../database-notification.type';
 import { dbSubject } from '../subjects';
 
 @Injectable()
@@ -22,10 +20,25 @@ export class DatabaseNotificationsService {
         mysql: true,
       },
     });
+
     await instance.start();
+    if (process.env.DB_TABLES?.length) {
+      process.env.DB_TABLES.split(',').forEach((tableName: string) => {
+        this.addTrigger(instance, `${process.env.DB_NAME}.${tableName}`, tableName);
+      });
+    } else {
+      this.addTrigger(instance);
+    }
+
+    instance.on(MySQLEvents.EVENTS.CONNECTION_ERROR, console.error);
+    instance.on(MySQLEvents.EVENTS.ZONGJI_ERROR, console.error);
+  }
+
+  private addTrigger(instance: any, expression = '*', name = 'ALL_TABLES') {
+    console.log({ expression, name });
     instance.addTrigger({
-      name: 'TEST',
-      expression: '*',
+      name,
+      expression,
       statement: MySQLEvents.STATEMENTS.ALL,
       onEvent: (event: MySQLDatabaseNotification) => {
         // You will receive the events here
@@ -37,9 +50,6 @@ export class DatabaseNotificationsService {
         });
       },
     });
-
-    instance.on(MySQLEvents.EVENTS.CONNECTION_ERROR, console.error);
-    instance.on(MySQLEvents.EVENTS.ZONGJI_ERROR, console.error);
   }
 
   create(createDatabaseNotificationDto: CreateDatabaseNotificationDto) {

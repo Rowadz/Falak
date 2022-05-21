@@ -16,6 +16,12 @@ $ yarn falak-server
 $ yarn falak-react
 ```
 
+## Running the interactive cli
+
+```bash
+$ yarn falak
+```
+
 ## Adding capabilities to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.

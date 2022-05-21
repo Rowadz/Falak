@@ -4,6 +4,7 @@ import knex, { Knex } from 'knex';
 @Injectable()
 export class DatabaseQueryMockService {
   mysqlQueryBuilder: Knex;
+
   constructor() {
     this.mysqlQueryBuilder = this.init();
     setInterval(() => {
@@ -42,6 +43,7 @@ export class DatabaseQueryMockService {
       .then(() => console.log('➕ INSERTED a row ➕'))
       .catch(console.error);
   }
+
   private async randomDeletes() {
     this.mysqlQueryBuilder('contacts')
       .delete()
