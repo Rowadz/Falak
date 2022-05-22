@@ -1,5 +1,7 @@
+import { QueryKind } from '@falak/constants';
+
 export type DatabaseNotification = {
-  type: 'INSERT' | 'DELETE' | 'UPDATE';
+  type: QueryKind;
   schema: string;
   table: string;
   //   TODO:: create type if needed

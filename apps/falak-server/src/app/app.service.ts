@@ -4,7 +4,7 @@ import { DatabaseNotification } from './database-notification.type';
 import { DatabaseNotificationsService } from './database-notifications/database-notifications.service';
 import { DatabaseQueryMockService } from './database-notifications/database-query-mock.service';
 import { MongoService } from './mongo/mongo.service';
-import { dbSubject } from './subjects';
+import { dbSubject, dbTablesSubject } from './subjects';
 
 @Injectable()
 export class AppService {
@@ -14,6 +14,9 @@ export class AppService {
     private readonly databaseQueryMockService: DatabaseQueryMockService
   ) {
     this.watch();
+    setInterval(() => {
+      this.getAllTabled();
+    }, 2000);
   }
 
   private async watch() {
@@ -24,5 +27,14 @@ export class AppService {
         collection.insertOne(data).catch(console.error);
       },
     });
+  }
+
+  private async getAllTabled() {
+    const DB_NAME = 'my_db';
+    const [result] = await this.databaseQueryMockService.mysqlQueryBuilder.raw(
+      `SELECT table_name as name FROM information_schema.tables WHERE table_schema = '${DB_NAME}';`
+    );
+    const names = result?.map(({ name }) => name);
+    dbTablesSubject.next({ names });
   }
 }

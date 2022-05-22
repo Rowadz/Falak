@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "constants": "libs/constants",
     "falak-react": "apps/falak-react",
     "falak-react-e2e": "apps/falak-react-e2e",
     "falak-server": "apps/falak-server"

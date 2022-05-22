@@ -9,7 +9,8 @@ import { CreateDatabaseNotificationDto } from './dto/create-database-notificatio
 import { UpdateDatabaseNotificationDto } from './dto/update-database-notification.dto';
 import { Server } from 'socket.io';
 import { DatabaseNotification } from '../database-notification.type';
-import { dbSubject } from '../subjects';
+import { dbSubject, dbTablesSubject } from '../subjects';
+import { NOTIFICATION, AallTables, ALL_TABELS } from '@falak/constants';
 
 @WebSocketGateway()
 export class DatabaseNotificationsGateway {
@@ -19,7 +20,12 @@ export class DatabaseNotificationsGateway {
   constructor(private readonly databaseNotificationsService: DatabaseNotificationsService) {
     dbSubject.subscribe({
       next: (data: Partial<DatabaseNotification>) => {
-        this.server.emit('NOTIFICATION', data);
+        this.server.emit(NOTIFICATION, data);
+      },
+    });
+    dbTablesSubject.subscribe({
+      next: (tableNames: AallTables) => {
+        this.server.emit(ALL_TABELS, tableNames);
       },
     });
   }

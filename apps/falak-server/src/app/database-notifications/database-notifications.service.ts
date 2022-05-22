@@ -35,7 +35,7 @@ export class DatabaseNotificationsService {
   }
 
   private addTrigger(instance: any, expression = '*', name = 'ALL_TABLES') {
-    console.log({ expression, name });
+    // console.log({ expression, name });
     instance.addTrigger({
       name,
       expression,
