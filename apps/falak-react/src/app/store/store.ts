@@ -13,13 +13,17 @@ type DataByTable = {
 export type FalakState = {
   tablesToMonitor: string[];
   dataByTable: DataByTable;
+  isConnected: boolean;
   setTablesToBeMonitored: (tableNames: string[]) => void;
   setDataByTable: (tableName: string, event: QueryKind) => void;
+  setIsConnected: (isConnected: boolean) => void;
 };
 
 export const useStore = create<FalakState>((set) => ({
   tablesToMonitor: [],
   dataByTable: {},
+  isConnected: false,
+  setIsConnected: (isConnected: boolean) => set(() => ({ isConnected })),
   setDataByTable: (tableName: string, event: QueryKind) =>
     set((state: FalakState) => ({
       dataByTable: {

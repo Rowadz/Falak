@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import constate from 'constate';
 import { connect } from 'socket.io-client';
-import { useStore, setDataByTableSelector, tablesToMonitorSelector } from '../store';
+import {
+  useStore,
+  setDataByTableSelector,
+  tablesToMonitorSelector,
+  setIsConnectedSelector,
+} from '../store';
 import { NOTIFICATION, ALL_TABELS, AallTables } from '@falak/constants';
 
 const useWebSocket = () => {
-  // const [state, setState] = useState();
   const [tables, setTables] = useState<string[]>();
   const setDataByTable = useStore(setDataByTableSelector);
   const tablesToMonitor = useStore(tablesToMonitorSelector);
-  // const setDataByTable = useStore(setDataByTableSelector);
+  const setIsConnected = useStore(setIsConnectedSelector);
 
   useEffect(() => {
     const socket = connect('http://localhost:3333', {
@@ -21,6 +25,14 @@ const useWebSocket = () => {
       if (tablesToMonitor.includes(data.table)) {
         setDataByTable(data.table, data.type);
       }
+    });
+
+    socket.on('disconnect', () => {
+      setIsConnected(false);
+    });
+
+    socket.on('connect', () => {
+      setIsConnected(true);
     });
 
     socket.on(ALL_TABELS, (tables: AallTables) => {

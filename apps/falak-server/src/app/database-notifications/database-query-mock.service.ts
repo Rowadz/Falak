@@ -11,7 +11,7 @@ export class DatabaseQueryMockService {
     this.mysqlQueryBuilder = this.init();
     setInterval(() => {
       this.randomInserts();
-      this.randomDeletes();
+      // this.randomDeletes();
     }, 2000);
 
     setInterval(() => {
@@ -51,7 +51,7 @@ export class DatabaseQueryMockService {
   private async randomInserts() {
     this.mysqlQueryBuilder('contacts')
       .insert({
-        email: 'b',
+        email: Math.random() > 0.5 ? 'b' : 'a',
         name: 'rowadz',
         address: 'rowadz',
         phone: '312312',
@@ -63,7 +63,7 @@ export class DatabaseQueryMockService {
   private async randomDeletes() {
     this.mysqlQueryBuilder('contacts')
       .delete()
-      // .where({ email: 'b' })
+      .where({ email: Math.random() > 0.5 ? 'b' : 'a' })
       .then(() => console.log('❌ DELETED a row ❌'))
       .catch(console.error);
   }
