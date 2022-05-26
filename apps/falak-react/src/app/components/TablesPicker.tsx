@@ -1,18 +1,16 @@
 import { TagPicker } from 'rsuite';
-import { useWebSocketContext } from '../hooks';
-import { useStore, setTablesToBeMonitoredSelector } from '../store';
+import { useStore, setTablesToBeMonitoredSelector, tableNamesSelector } from '../store';
 
 export const TablesPicker = () => {
-  const { tables } = useWebSocketContext();
+  const tables: string[] = useStore(tableNamesSelector);
   const setTablesToBeMonitored = useStore(setTablesToBeMonitoredSelector);
 
-  // console.log({ tables });
   return (
     <TagPicker
       css={{ width: '100%' }}
       placeholder="Select a table to monitor"
       onChange={setTablesToBeMonitored}
-      data={tables?.map((tableName: string) => ({ label: tableName, value: tableName })) || []}
+      data={tables.map((tableName: string) => ({ label: tableName, value: tableName })) || []}
     />
   );
 };

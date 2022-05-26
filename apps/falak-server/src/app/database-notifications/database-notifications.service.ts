@@ -5,9 +5,14 @@ import * as MySQLEvents from '@rodrigogs/mysql-events';
 import { createConnection } from 'mysql';
 import { MySQLDatabaseNotification } from '../database-notification.type';
 import { dbSubject } from '../subjects';
+import { MongoService } from '../mongo/mongo.service';
+import { WebSocketNotification } from '@falak/constants';
+import { AggregationCursor } from 'mongodb';
 
 @Injectable()
 export class DatabaseNotificationsService {
+  constructor(private readonly mongoService: MongoService) {}
+
   async initEeventListener() {
     const connection = createConnection({
       host: 'localhost',
@@ -56,8 +61,22 @@ export class DatabaseNotificationsService {
     return 'This action adds a new databaseNotification';
   }
 
-  findAll() {
-    return `This action returns all databaseNotifications`;
+  findAll(): AggregationCursor<WebSocketNotification> {
+    return this.mongoService.collection.aggregate<WebSocketNotification>([
+      {
+        $group: {
+          _id: { type: '$type', table: '$table' },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$_id', { count: '$count' }],
+          },
+        },
+      },
+    ]);
   }
 
   findOne(id: number) {

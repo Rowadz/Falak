@@ -1,6 +1,13 @@
 import styled from '@emotion/styled';
 import { Navbar, Nav, Badge } from 'rsuite';
-import { isConnectedSelector, useStore } from '../store';
+import { BsLightbulb, BsLightbulbOff } from 'react-icons/bs';
+import {
+  isConnectedSelector,
+  useStore,
+  setThemeSelector,
+  themeSelector,
+  FalakTheme,
+} from '../store';
 
 const CustomNavBar = styled(Navbar)`
   box-shadow: 0px -1px 13px 0px #111;
@@ -8,6 +15,8 @@ const CustomNavBar = styled(Navbar)`
 
 export const AppNavBar = () => {
   const isConnected = useStore(isConnectedSelector);
+  const setTheme = useStore(setThemeSelector);
+  const theme: FalakTheme = useStore(themeSelector);
 
   return (
     <CustomNavBar>
@@ -26,6 +35,13 @@ export const AppNavBar = () => {
             color={isConnected ? 'violet' : 'red'}
             content={isConnected ? 'Websocket server Online' : 'Websocket Server Offline'}
           />
+        </Nav.Item>
+        <Nav.Item
+          onClick={() => {
+            setTheme(theme === 'light' ? 'dark' : 'light');
+          }}>
+          {theme === 'light' && <BsLightbulb color="black" />}
+          {theme === 'dark' && <BsLightbulbOff color="white" />}
         </Nav.Item>
       </Nav>
     </CustomNavBar>

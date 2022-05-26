@@ -12,7 +12,7 @@ export class DatabaseQueryMockService {
     setInterval(() => {
       this.randomInserts();
       // this.randomDeletes();
-    }, 2000);
+    }, 400);
 
     setInterval(() => {
       this.randomDeletes();
@@ -53,6 +53,7 @@ export class DatabaseQueryMockService {
       .insert({
         email: Math.random() > 0.5 ? 'b' : 'a',
         name: 'rowadz',
+        user_id: 1,
         address: 'rowadz',
         phone: '312312',
       })

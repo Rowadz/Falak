@@ -1,14 +1,16 @@
 import styled from '@emotion/styled';
 import 'rsuite/dist/rsuite.min.css';
-import { AppNavBar, TablesPicker } from './components';
-import { Container, FlexboxGrid, CustomProvider, Panel } from 'rsuite';
+import { AppNavBar, KPI, TablesPicker } from './components';
+import { Container, FlexboxGrid, CustomProvider, Panel, Col } from 'rsuite';
 import { GrMysql } from 'react-icons/gr';
-import { FcPlus, FcFullTrash, FcSynchronize } from 'react-icons/fc';
-// FcDeleteDatabase
 import { WebSocketContextProvider } from './hooks';
-// import { Route, Routes, Link } from 'react-router-dom';
-import { tablesToMonitorSelector, useStore, dataByTableSelector } from './store';
-// import { getOptions } from './chartOptions';
+import {
+  tablesToMonitorSelector,
+  useStore,
+  dataByTableSelector,
+  themeSelector,
+  FalakTheme,
+} from './store';
 
 const CustomContainer = styled(Container)`
   margin: 1rem;
@@ -16,81 +18,40 @@ const CustomContainer = styled(Container)`
 
 export function App() {
   const tableNames = useStore(tablesToMonitorSelector);
+  const theme: FalakTheme = useStore(themeSelector);
   const dataByTable = useStore(dataByTableSelector);
-  const store = useStore();
-  console.log(store.dataByTable);
+  console.log({ dataByTable });
+
   return (
     <WebSocketContextProvider>
-      <CustomProvider theme="dark">
+      <CustomProvider theme={theme}>
         <AppNavBar />
         <CustomContainer>
           <FlexboxGrid>
-            <FlexboxGrid.Item colspan={6}>
+            <FlexboxGrid.Item colspan={6} as={Col} xs={24} md={6} lg={6}>
               <h5 css={{ marginBottom: '1rem' }}>
-                List of all the tables in your database <GrMysql />
+                The tables in your database <GrMysql /> select one to subscribe to
               </h5>
               <TablesPicker />
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={18}>
+            <FlexboxGrid.Item colspan={18} as={Col} xs={24} md={18} lg={18}>
               <CustomContainer>
                 <FlexboxGrid>
                   {tableNames?.map((tableName: string) => {
-                    const { DELETE, INSERT, UPDATE } = dataByTable[tableName] || {
-                      DELETE: 0,
-                      INSERT: 0,
-                      UPDATE: 0,
-                    };
+                    const { DELETE = 0, INSERT = 0, UPDATE = 0 } = dataByTable[tableName] || {};
                     const total = DELETE + INSERT + UPDATE;
+                    const totalFormatted = total.toLocaleString('en-US');
                     return (
-                      <FlexboxGrid.Item key={tableName} colspan={24}>
+                      <FlexboxGrid.Item key={tableName} colspan={24} css={{ marginBottom: '1rem' }}>
                         <Panel
                           header={
                             <h4>
-                              {tableName} table [{total}]
+                              {tableName} table [{totalFormatted}]
                             </h4>
                           }
                           bordered>
                           <FlexboxGrid css={{ textAlign: 'center' }}>
-                            <FlexboxGrid.Item colspan={8}>
-                              <CustomContainer>
-                                <Panel
-                                  header={
-                                    <h5>
-                                      <FcPlus /> inserts {((INSERT / total) * 100).toFixed(2)}%
-                                    </h5>
-                                  }
-                                  bordered>
-                                  <h5>{INSERT}</h5>
-                                </Panel>
-                              </CustomContainer>
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={8}>
-                              <CustomContainer>
-                                <Panel
-                                  header={
-                                    <h5>
-                                      <FcSynchronize /> updates{' '}
-                                      {((UPDATE / total) * 100).toFixed(2)}%
-                                    </h5>
-                                  }
-                                  bordered>
-                                  <h5>{UPDATE}</h5>
-                                </Panel>
-                              </CustomContainer>
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item colspan={8}>
-                              <CustomContainer>
-                                <Panel
-                                  header={
-                                    <h5>
-                                      <FcFullTrash /> deletes {((DELETE / total) * 100).toFixed(2)}%
-                                    </h5>
-                                  }
-                                  bordered>
-                                  <h5>{DELETE}</h5>
-                                </Panel>
-                              </CustomContainer>
-                            </FlexboxGrid.Item>
+                            <KPI INSERT={INSERT} DELETE={DELETE} total={total} UPDATE={UPDATE} />
                           </FlexboxGrid>
                         </Panel>
                       </FlexboxGrid.Item>

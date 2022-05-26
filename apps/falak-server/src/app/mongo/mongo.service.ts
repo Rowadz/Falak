@@ -3,7 +3,11 @@ import { Collection, MongoClient, Document } from 'mongodb';
 
 @Injectable()
 export class MongoService {
-  private collection: Collection<Document>;
+  private _collection: Collection<Document>;
+
+  get collection() {
+    return this._collection;
+  }
 
   async createConnection(): Promise<Collection<Document>> {
     if (this.collection) {
@@ -17,7 +21,7 @@ export class MongoService {
     console.log('🚀🚀 Connected successfully to MongoDB');
     const db = client.db(dbName);
     const collection = db.collection('events');
-    this.collection = collection;
+    this._collection = collection;
     return collection;
   }
 }

@@ -9,23 +9,28 @@ import { CreateDatabaseNotificationDto } from './dto/create-database-notificatio
 import { UpdateDatabaseNotificationDto } from './dto/update-database-notification.dto';
 import { Server } from 'socket.io';
 import { DatabaseNotification } from '../database-notification.type';
-import { dbSubject, dbTablesSubject } from '../subjects';
-import { NOTIFICATION, AallTables, ALL_TABELS } from '@falak/constants';
+import { dbSubject } from '../subjects';
+import {
+  NOTIFICATION,
+  ALL_TABELS,
+  WebSocketNotification,
+  FIND_ALL_DB_NOTIFICATION,
+  AllTablesNames,
+} from '@falak/constants';
+import { DatabaseQueryMockService } from './database-query-mock.service';
 
 @WebSocketGateway()
 export class DatabaseNotificationsGateway {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly databaseNotificationsService: DatabaseNotificationsService) {
+  constructor(
+    private readonly databaseNotificationsService: DatabaseNotificationsService,
+    private readonly databaseQueryMockService: DatabaseQueryMockService
+  ) {
     dbSubject.subscribe({
       next: (data: Partial<DatabaseNotification>) => {
         this.server.emit(NOTIFICATION, data);
-      },
-    });
-    dbTablesSubject.subscribe({
-      next: (tableNames: AallTables) => {
-        this.server.emit(ALL_TABELS, tableNames);
       },
     });
   }
@@ -35,14 +40,27 @@ export class DatabaseNotificationsGateway {
     return this.databaseNotificationsService.create(createDatabaseNotificationDto);
   }
 
-  @SubscribeMessage('findAllDatabaseNotifications')
-  findAll() {
-    return this.databaseNotificationsService.findAll();
+  @SubscribeMessage(FIND_ALL_DB_NOTIFICATION)
+  async findAll() {
+    const pastNotfications: WebSocketNotification[] = await this.databaseNotificationsService
+      .findAll()
+      .toArray();
+    this.server.emit(NOTIFICATION, pastNotfications);
   }
 
   @SubscribeMessage('findOneDatabaseNotification')
   findOne(@MessageBody() id: number) {
     return this.databaseNotificationsService.findOne(id);
+  }
+
+  @SubscribeMessage(ALL_TABELS)
+  async getAllTables() {
+    const DB_NAME = 'my_db';
+    const [result] = await this.databaseQueryMockService.mysqlQueryBuilder.raw(
+      `SELECT table_name as name FROM information_schema.tables WHERE table_schema = '${DB_NAME}';`
+    );
+    const names: AllTablesNames = result?.map(({ name }) => name);
+    this.server.emit(ALL_TABELS, names);
   }
 
   @SubscribeMessage('updateDatabaseNotification')
