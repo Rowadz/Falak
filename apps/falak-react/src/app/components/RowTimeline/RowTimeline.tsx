@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { GET_ROW_TIMELINE, RowTimeline as RowTimelineType, TIMELINE } from '@falak/constants';
-import { Input, FlexboxGrid, InputGroup, Timeline, toaster, Notification } from 'rsuite';
+import { Input, FlexboxGrid, InputGroup, Timeline } from 'rsuite';
 import { CustomContainer } from '..';
 import ReactDiffViewer from 'react-diff-viewer';
 import { FcPlus, FcFullTrash, FcSynchronize } from 'react-icons/fc';
 import { useWebSocketContext } from '../../hooks';
 import { themeSelector, FalakTheme, useStore } from '../../store';
 import { TablesPicker } from '../TablesPicker';
-import { MessageType } from 'rsuite/esm/Notification/Notification';
 
 export const RowTimeline = () => {
   const socket = useWebSocketContext();
@@ -17,25 +16,19 @@ export const RowTimeline = () => {
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     socket?.on(TIMELINE, (data: RowTimelineType[]) => {
-      const finalOperation = data[data.length - 1].type;
-      const type: MessageType = finalOperation === 'UPDATE' ? 'info' : 'error';
-      toaster.push(
-        <Notification type={type} header={type} closable duration={500}>
-          New snapshot
-        </Notification>,
-        {
-          placement: 'topStart',
-        }
-      );
       setRowTinelineData(data);
     });
   }, [socket]);
+
+  // TODO:: make this better, make the backend send events
   const getRowTimeLine = () => {
     if (!ref.current?.value) {
       return;
     }
-    // @ts-expect-error type never?
-    socket?.emit(GET_ROW_TIMELINE, +ref.current?.value);
+    setInterval(() => {
+      // @ts-expect-error type never?
+      socket?.emit(GET_ROW_TIMELINE, +ref.current?.value);
+    }, 1000);
   };
 
   return (
@@ -72,7 +65,7 @@ export const RowTimeline = () => {
                     useDarkTheme={theme === 'dark'}
                     oldValue={JSON.stringify(snapshot?.before || {}, null, 2)}
                     newValue={JSON.stringify(snapshot?.after || {}, null, 2)}
-                    splitView={false}
+                    splitView
                   />
                 </>
               </Timeline.Item>

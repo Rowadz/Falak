@@ -24,15 +24,15 @@ export class DatabaseQueryMockService {
 
     setInterval(() => {
       this.randomUpdates2();
-    }, 4000);
+    }, 2000);
 
-    // setTimeout(() => {
-    //   this.randomUpdates2();
-    // }, 6000);
+    // // setTimeout(() => {
+    // //   this.randomUpdates2();
+    // // }, 6000);
 
-    // setTimeout(() => {
-    //   this.randomDeletes2();
-    // }, 8500);
+    setTimeout(() => {
+      this.randomDeletes2();
+    }, 9000);
   }
 
   private init() {
@@ -88,15 +88,18 @@ export class DatabaseQueryMockService {
   private async randomDeletes2() {
     this.mysqlQueryBuilder('orders')
       .delete()
-      .where({ id: 3222 })
+      .where({ id: 3230 })
       .then(() => console.log('❌ DELETED a row ❌'))
       .catch(console.error);
   }
 
   private async randomUpdates2() {
     this.mysqlQueryBuilder('orders')
-      .update({ status: Math.random() > 0.5 ? 'WHAT?' : 'NICE STATUS!', due_date: new Date() })
-      .where({ id: 3222 })
+      .update({
+        status: Math.random() > 0.5 ? 'WHAT?' : 'NICE STATUS!',
+        title: Date.now().toString(),
+      })
+      .where({ id: 3230 })
       .then(() => console.log('📐 UPDATED a row 📐'))
       .catch(console.error);
   }

@@ -54,7 +54,6 @@ export class DatabaseNotificationsGateway {
   @SubscribeMessage(GET_ROW_TIMELINE)
   async findOne(@MessageBody() id: number): Promise<void> {
     this.server.emit(TIMELINE, await this.getTimeLine(id));
-    this.subToTimeline(id);
   }
 
   @SubscribeMessage(ALL_TABELS)
@@ -85,13 +84,5 @@ export class DatabaseNotificationsGateway {
       .getRowTimeline(id)
       .toArray();
     return rowTimeline;
-  }
-
-  private async subToTimeline(id: number) {
-    dbSubject.subscribe({
-      next: async () => {
-        this.server.emit(TIMELINE, await this.getTimeLine(id));
-      },
-    });
   }
 }
