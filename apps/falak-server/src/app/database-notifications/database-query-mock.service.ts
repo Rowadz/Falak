@@ -9,26 +9,26 @@ export class DatabaseQueryMockService {
 
   constructor() {
     this.mysqlQueryBuilder = this.init();
-    setInterval(() => {
-      this.randomInserts();
-      // this.randomDeletes();
-    }, 400);
+    // setInterval(() => {
+    //   this.randomInserts();
+    //   // this.randomDeletes();
+    // }, 4000);
 
-    setInterval(() => {
-      this.randomDeletes();
-    }, 200);
+    // setInterval(() => {
+    //   this.randomDeletes();
+    // }, 2000);
 
-    setInterval(() => {
-      this.randomInserts2();
-    }, 100);
+    // setInterval(() => {
+    //   this.randomInserts2();
+    // }, 1000);
 
     setInterval(() => {
       this.randomUpdates2();
-    }, 300);
+    }, 2000);
 
-    setInterval(() => {
-      this.randomDeletes2();
-    }, 400);
+    // setInterval(() => {
+    //   this.randomDeletes2();
+    // }, 4000);
   }
 
   private init() {
@@ -91,8 +91,8 @@ export class DatabaseQueryMockService {
 
   private async randomUpdates2() {
     this.mysqlQueryBuilder('orders')
-      .update({ title: 'hmmmm?' })
-      .where({ title: 'b' })
+      .update({ status: Math.random() > 0.5 ? 'WHAT?' : 'NICE STATUS!' })
+      .where({ id: 678 })
       .then(() => console.log('📐 UPDATED a row 📐'))
       .catch(console.error);
   }

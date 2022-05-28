@@ -1,3 +1,4 @@
+import { AffectedRows, RowHistory } from '@falak/constants';
 import { Injectable } from '@nestjs/common';
 import { Document, Collection } from 'mongodb';
 import { DatabaseNotification } from './database-notification.type';
@@ -21,7 +22,20 @@ export class AppService {
     this.databaseNotificationsService.initEeventListener();
     dbSubject.subscribe({
       next: (data: Partial<DatabaseNotification>) => {
-        collection.insertOne(data).catch(console.error);
+        const { type, table } = data;
+        const mappedEvents: RowHistory[] = data.affectedRows.map<RowHistory>(
+          ({ after, before }: AffectedRows) => ({
+            after,
+            before,
+            mysql_id: (after?.id || before?.id) as number,
+            type,
+            table,
+            // TODO put this on the DB level?
+            created_at: Date.now(),
+          })
+        );
+        console.log(mappedEvents);
+        collection.insertMany(mappedEvents).catch(console.error);
       },
     });
   }

@@ -1,11 +1,10 @@
-import { QueryKind } from '@falak/constants';
+import { QueryKind, AffectedRows } from '@falak/constants';
 
 export type DatabaseNotification = {
   type: QueryKind;
   schema: string;
   table: string;
-  //   TODO:: create type if needed
-  affectedRows?: any[];
+  affectedRows: AffectedRows[];
   //   TODO:: create type if needed
   affectedColumns?: string[];
 };

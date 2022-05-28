@@ -20,6 +20,7 @@ export class MongoService {
     await client.connect();
     console.log('🚀🚀 Connected successfully to MongoDB');
     const db = client.db(dbName);
+    // TODO:: define a schema for this plz
     const collection = db.collection('events');
     this._collection = collection;
     return collection;

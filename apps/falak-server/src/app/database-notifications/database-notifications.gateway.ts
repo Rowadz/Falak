@@ -16,6 +16,9 @@ import {
   WebSocketNotification,
   FIND_ALL_DB_NOTIFICATION,
   AllTablesNames,
+  GET_ROW_TIMELINE,
+  TIMELINE,
+  RowTimeline,
 } from '@falak/constants';
 import { DatabaseQueryMockService } from './database-query-mock.service';
 
@@ -41,16 +44,19 @@ export class DatabaseNotificationsGateway {
   }
 
   @SubscribeMessage(FIND_ALL_DB_NOTIFICATION)
-  async findAll() {
+  async findAll(): Promise<void> {
     const pastNotfications: WebSocketNotification[] = await this.databaseNotificationsService
       .findAll()
       .toArray();
     this.server.emit(NOTIFICATION, pastNotfications);
   }
 
-  @SubscribeMessage('findOneDatabaseNotification')
-  findOne(@MessageBody() id: number) {
-    return this.databaseNotificationsService.findOne(id);
+  @SubscribeMessage(GET_ROW_TIMELINE)
+  async findOne(@MessageBody() id: number): Promise<void> {
+    const rowTimeline: RowTimeline[] = await this.databaseNotificationsService
+      .getRowTimeline(id)
+      .toArray();
+    this.server.emit(TIMELINE, rowTimeline);
   }
 
   @SubscribeMessage(ALL_TABELS)

@@ -6,7 +6,7 @@ import { createConnection } from 'mysql';
 import { MySQLDatabaseNotification } from '../database-notification.type';
 import { dbSubject } from '../subjects';
 import { MongoService } from '../mongo/mongo.service';
-import { WebSocketNotification } from '@falak/constants';
+import { RowTimeline, WebSocketNotification } from '@falak/constants';
 import { AggregationCursor } from 'mongodb';
 
 @Injectable()
@@ -49,6 +49,7 @@ export class DatabaseNotificationsService {
         // You will receive the events here
         dbSubject.next({
           // affectedColumns: event.affectedColumns,
+          affectedRows: event.affectedRows,
           // schema: event.schema,
           table: event.table,
           type: event.type,
@@ -79,8 +80,20 @@ export class DatabaseNotificationsService {
     ]);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} databaseNotification`;
+  // TODO:: paginate?
+  getRowTimeline(id: number): AggregationCursor<RowTimeline> {
+    return this.mongoService.collection.aggregate([
+      {
+        $match: {
+          mysql_id: id,
+        },
+      },
+      {
+        $sort: {
+          created_at: 1,
+        },
+      },
+    ]);
   }
 
   update(id: number, updateDatabaseNotificationDto: UpdateDatabaseNotificationDto) {

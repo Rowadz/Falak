@@ -11,8 +11,8 @@ const KpiCard = styled(Panel)`
   padding: 1em;
   border-radius: 0.3em;
   font-family: sans-serif;
-  width: 240px;
-  min-width: 180px;
+  width: 100%;
+  min-width: 240px;
   margin-left: 0.5em;
   margin-top: 0.5em;
   color: #fff;
