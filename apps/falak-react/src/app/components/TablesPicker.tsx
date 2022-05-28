@@ -1,7 +1,8 @@
 import { TagPicker } from 'rsuite';
+import type { TagPickerProps } from 'rsuite';
 import { useStore, setTablesToBeMonitoredSelector, tableNamesSelector } from '../store';
 
-export const TablesPicker = () => {
+export const TablesPicker = (props: Partial<TagPickerProps>) => {
   const tables: string[] = useStore(tableNamesSelector);
   const setTablesToBeMonitored = useStore(setTablesToBeMonitoredSelector);
 
@@ -11,6 +12,7 @@ export const TablesPicker = () => {
       placeholder="Select a table to monitor"
       onChange={setTablesToBeMonitored}
       data={tables.map((tableName: string) => ({ label: tableName, value: tableName })) || []}
+      {...(props || {})}
     />
   );
 };

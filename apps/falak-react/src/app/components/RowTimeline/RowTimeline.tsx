@@ -1,5 +1,87 @@
+import { useEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { GET_ROW_TIMELINE, RowTimeline as RowTimelineType, TIMELINE } from '@falak/constants';
+import { Input, FlexboxGrid, InputGroup, Timeline, toaster, Notification } from 'rsuite';
+import { CustomContainer } from '..';
+import ReactDiffViewer from 'react-diff-viewer';
+import { FcPlus, FcFullTrash, FcSynchronize } from 'react-icons/fc';
+import { useWebSocketContext } from '../../hooks';
+import { themeSelector, FalakTheme, useStore } from '../../store';
+import { TablesPicker } from '../TablesPicker';
+import { MessageType } from 'rsuite/esm/Notification/Notification';
+
 export const RowTimeline = () => {
-  return <div>RowTimeline</div>;
+  const socket = useWebSocketContext();
+  const theme: FalakTheme = useStore(themeSelector);
+  const [rowTinelineData, setRowTinelineData] = useState<RowTimelineType[]>([]);
+  const ref = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    socket?.on(TIMELINE, (data: RowTimelineType[]) => {
+      const finalOperation = data[data.length - 1].type;
+      const type: MessageType = finalOperation === 'UPDATE' ? 'info' : 'error';
+      toaster.push(
+        <Notification type={type} header={type} closable duration={500}>
+          New snapshot
+        </Notification>,
+        {
+          placement: 'topStart',
+        }
+      );
+      setRowTinelineData(data);
+    });
+  }, [socket]);
+  const getRowTimeLine = () => {
+    if (!ref.current?.value) {
+      return;
+    }
+    // @ts-expect-error type never?
+    socket?.emit(GET_ROW_TIMELINE, +ref.current?.value);
+  };
+
+  return (
+    <CustomContainer>
+      <FlexboxGrid>
+        <FlexboxGrid.Item colspan={12}>
+          <TablesPicker size="lg" />
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item colspan={12}>
+          <InputGroup>
+            <Input size="lg" placeholder="Enter the row id here" inputRef={ref} />
+            <InputGroup.Button onClick={getRowTimeLine}>Subscribe to timeline</InputGroup.Button>
+          </InputGroup>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+      <FlexboxGrid>
+        <FlexboxGrid.Item colspan={24}>
+          <Timeline endless>
+            {rowTinelineData.map((snapshot: RowTimelineType, i: number) => (
+              <Timeline.Item
+                key={i}
+                dot={
+                  <>
+                    {snapshot.type === 'INSERT' && <FcPlus />}
+                    {snapshot.type === 'UPDATE' && <FcSynchronize />}
+                    {snapshot.type === 'DELETE' && <FcFullTrash />}
+                  </>
+                }>
+                <>
+                  {snapshot.type} -{' '}
+                  {dayjs.unix(snapshot.created_at / 1000).format('MM/DD/YYYY HH:mm:s.SSS')}
+                  {/* {dayjs.duration(1653734037354 / 1000, 'millisecond').humanize()} - ago */}
+                  <ReactDiffViewer
+                    useDarkTheme={theme === 'dark'}
+                    oldValue={JSON.stringify(snapshot?.before || {}, null, 2)}
+                    newValue={JSON.stringify(snapshot?.after || {}, null, 2)}
+                    splitView={false}
+                  />
+                </>
+              </Timeline.Item>
+            ))}
+          </Timeline>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </CustomContainer>
+  );
 };
 
 /* <CustomContainer>

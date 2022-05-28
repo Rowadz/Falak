@@ -34,7 +34,6 @@ export class AppService {
             created_at: Date.now(),
           })
         );
-        console.log(mappedEvents);
         collection.insertMany(mappedEvents).catch(console.error);
       },
     });

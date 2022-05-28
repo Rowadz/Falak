@@ -53,10 +53,8 @@ export class DatabaseNotificationsGateway {
 
   @SubscribeMessage(GET_ROW_TIMELINE)
   async findOne(@MessageBody() id: number): Promise<void> {
-    const rowTimeline: RowTimeline[] = await this.databaseNotificationsService
-      .getRowTimeline(id)
-      .toArray();
-    this.server.emit(TIMELINE, rowTimeline);
+    this.server.emit(TIMELINE, await this.getTimeLine(id));
+    this.subToTimeline(id);
   }
 
   @SubscribeMessage(ALL_TABELS)
@@ -80,5 +78,20 @@ export class DatabaseNotificationsGateway {
   @SubscribeMessage('removeDatabaseNotification')
   remove(@MessageBody() id: number) {
     return this.databaseNotificationsService.remove(id);
+  }
+
+  private async getTimeLine(id: number): Promise<RowTimeline[]> {
+    const rowTimeline: RowTimeline[] = await this.databaseNotificationsService
+      .getRowTimeline(id)
+      .toArray();
+    return rowTimeline;
+  }
+
+  private async subToTimeline(id: number) {
+    dbSubject.subscribe({
+      next: async () => {
+        this.server.emit(TIMELINE, await this.getTimeLine(id));
+      },
+    });
   }
 }

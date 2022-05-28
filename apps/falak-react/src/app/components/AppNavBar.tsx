@@ -15,10 +15,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 const CustomNavBar = styled(Navbar)`
   box-shadow: 0px -1px 13px 0px #111;
-  background-color: ${(props) => (props.theme === 'dark' ? '#F4F4F4' : '#350c40')};
+  background-color: ${(props) => (props.theme === 'dark' ? '#1a1d24' : '#350c40')};
   color: #fff;
   a {
-    color: ${(props) => (props.theme === 'light' ? '#F4F4F4' : '#000')};
+    color: #fff;
   }
   .rs-navbar-item:hover {
     background-color: #a192a6;
@@ -48,16 +48,22 @@ export const AppNavBar = () => {
         </span>
       </Navbar.Brand>
       <Nav>
-        <Nav.Item className={cx({ active: pathname === REACT_ROUTES.HOME })}>
-          <Link to={REACT_ROUTES.HOME}>Home</Link>
-        </Nav.Item>
-        <Nav.Item className={cx({ active: pathname === REACT_ROUTES.TABLE_MONITOR })}>
-          <Link to={REACT_ROUTES.TABLE_MONITOR}>Table Monitor</Link>
-        </Nav.Item>
+        <Link to={REACT_ROUTES.HOME}>
+          <Nav.Item as="span" className={cx({ active: pathname === REACT_ROUTES.HOME })}>
+            Home
+          </Nav.Item>
+        </Link>
+        <Link to={REACT_ROUTES.TABLE_MONITOR}>
+          <Nav.Item as="span" className={cx({ active: pathname === REACT_ROUTES.TABLE_MONITOR })}>
+            Table Monitor
+          </Nav.Item>
+        </Link>
 
-        <Nav.Item className={cx({ active: pathname === REACT_ROUTES.ROW_TIMELINE })}>
-          <Link to={REACT_ROUTES.ROW_TIMELINE}>Row Timeline</Link>
-        </Nav.Item>
+        <Link to={REACT_ROUTES.ROW_TIMELINE}>
+          <Nav.Item as="span" className={cx({ active: pathname === REACT_ROUTES.ROW_TIMELINE })}>
+            Row Timeline
+          </Nav.Item>
+        </Link>
       </Nav>
       <Nav pullRight>
         <Nav.Item>
@@ -70,8 +76,8 @@ export const AppNavBar = () => {
           onClick={() => {
             setTheme(theme === 'light' ? 'dark' : 'light');
           }}>
-          {theme === 'light' && <BsLightbulb color={theme === 'light' ? '#F4F4F4' : '#000'} />}
-          {theme === 'dark' && <BsLightbulbOff color={theme === 'dark' ? '#000' : '#F4F4F4'} />}
+          {theme === 'light' && <BsLightbulb color={theme === 'light' ? '#F4F4F4' : '#fff'} />}
+          {theme === 'dark' && <BsLightbulbOff color={theme === 'dark' ? '#fff' : '#F4F4F4'} />}
         </Nav.Item>
       </Nav>
     </CustomNavBar>

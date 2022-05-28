@@ -81,6 +81,7 @@ export class DatabaseNotificationsService {
   }
 
   // TODO:: paginate?
+  // TODO:: this should filter by table name too.
   getRowTimeline(id: number): AggregationCursor<RowTimeline> {
     return this.mongoService.collection.aggregate([
       {

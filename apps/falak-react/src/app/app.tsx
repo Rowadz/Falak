@@ -1,4 +1,5 @@
 import 'rsuite/dist/rsuite.min.css';
+import './app.css';
 import { AppNavBar, RowTimeline } from './components';
 import { CustomProvider } from 'rsuite';
 import { WebSocketContextProvider } from './hooks';

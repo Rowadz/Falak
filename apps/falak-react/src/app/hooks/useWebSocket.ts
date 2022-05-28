@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import constate from 'constate';
 import { connect, Socket } from 'socket.io-client';
 import {
@@ -10,20 +10,28 @@ import {
 import {
   NOTIFICATION,
   ALL_TABELS,
+  GET_ROW_TIMELINE,
   AllTablesNames,
   FIND_ALL_DB_NOTIFICATION,
   WebSocketNotification,
+  TIMELINE,
+  RowTimeline,
 } from '@falak/constants';
+
+type obj = Record<string | number, unknown>;
 
 type FalakSocket = Socket<
   {
     [NOTIFICATION]: (data: WebSocketNotification | WebSocketNotification[]) => void;
     [ALL_TABELS]: (data: AllTablesNames) => void;
+    [TIMELINE]: (data: RowTimeline[]) => void;
   },
-  { [FIND_ALL_DB_NOTIFICATION]: any; [ALL_TABELS]: any }
+  { [FIND_ALL_DB_NOTIFICATION]: obj; [ALL_TABELS]: obj; [GET_ROW_TIMELINE]: number }
 >;
 
 const useWebSocket = () => {
+  const [socket, setSocket] = useState<FalakSocket | null>();
+
   const setDataByTable = useStore(setDataByTableSelector);
   const setIsConnected = useStore(setIsConnectedSelector);
   const setTableNames = useStore(setTableNamesSelector);
@@ -59,10 +67,15 @@ const useWebSocket = () => {
     socket.on(ALL_TABELS, (tables: AllTablesNames) => {
       setTableNames(tables);
     });
+
+    setSocket(socket);
+
     return () => {
       socket.close();
     };
   }, []);
+
+  return socket;
 };
 
 export const [WebSocketContextProvider, useWebSocketContext] = constate(useWebSocket);

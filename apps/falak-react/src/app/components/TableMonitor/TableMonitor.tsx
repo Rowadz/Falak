@@ -1,12 +1,7 @@
-import styled from '@emotion/styled';
-import { Container, FlexboxGrid, Panel, Col } from 'rsuite';
+import { FlexboxGrid, Panel, Col } from 'rsuite';
 import { GrMysql } from 'react-icons/gr';
 import { tablesToMonitorSelector, useStore, dataByTableSelector } from '../../store';
-import { KPI, TablesPicker } from '..';
-
-const CustomContainer = styled(Container)`
-  margin: 1rem;
-`;
+import { KPI, TablesPicker, CustomContainer } from '..';
 
 export const TableMonitor = () => {
   const tableNames = useStore(tablesToMonitorSelector);
